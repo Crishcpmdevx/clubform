@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>🦅Dark Phoenix Crew club🦅- Application</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cyan:#00eaff;
+  --teal:#00bcd4;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Poppins',sans-serif;
+  
+  
+  background: url('https://i.postimg.cc/ZngqLg9Q/1764064650031.jpg') no-repeat center center fixed;
+ 
+ 
+  background-size: cover;
+  padding: 20px;
+}
+
+/* NEON LOGO */
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight:700;
+  letter-spacing:0px;
+  color: var(--cyan);
+  font-size:16px;
+  text-transform:uppercase;
+  text-shadow: 0 0 8px rgba(0,234,255,0.18),
+               0 0 20px rgba(0,188,212,0.12);
+  display:flex;
+  gap:10px;
+  align-items:center;
+  z-index:50;
+}
+.logo .neon {
+  background: linear-gradient(90deg,#00eaff,#00bcd4,#8affff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation: neonPulse 2.8s ease-in-out infinite;
+}
+@keyframes neonPulse {
+  0%{ text-shadow: 0 0 6px rgba(0,234,255,0.12); transform: translateY(0) }
+  50%{ text-shadow: 0 0 16px rgba(0,234,255,0.28); transform: translateY(-2px) }
+  100%{ text-shadow: 0 0 6px rgba(0,234,255,0.12); transform: translateY(0) }
+}
+
+/* WRAPPER */
+.card {
+  width: 460px;
+  max-width: 98%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border-radius: 14px;
+  padding: 20px 24px;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  transition: box-shadow .25s ease;
+  height: 620px; /* fixed height */
+  overflow: hidden; /* no scroll */
+}
+
+/* GLOWING ANIMATED BORDER */
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:16px;
+  padding:2px;
+  background: conic-gradient(from 0deg, rgba(0,234,255,0.18), rgba(0,188,212,0.14), rgba(128,0,255,0.06), rgba(0,234,255,0.18));
+  filter: blur(10px);
+  opacity:0.8;
+  z-index:-2;
+  animation: rotateGlow 6s linear infinite;
+  -webkit-mask:
+  linear-gradient(#000,#000) content-box,
+  linear-gradient(#000,#000);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:14px;
+  z-index:-1;
+  background: rgba(0,0,0,0.35);
+}
+@keyframes rotateGlow {
+  0%{ transform: rotate(0deg) }
+  100%{ transform: rotate(360deg) }
+}
+
+form h2{
+  margin:0 0 12px 0;
+  color:var(--cyan);
+  font-size:16px;
+  text-align:center;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  text-shadow:0 0 10px rgba(0,234,255,0.12);
+}
+
+.row { display:flex; gap:10px; }
+.col { flex:1; }
+
+label{ display:block; font-size:13px; color:#cfeff6; margin-bottom:4px; }
+input, select, textarea, button {
+  width:100%;
+  padding:8px 10px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  color:#fff;
+  font-size:12px;
+  outline:none;
+  height:36px; /* fixed height */
+}
+textarea{
+  height:72px; /* fixed */
+  resize:none;
+}
+
+/* button */
+.btn {
+  background: linear-gradient(90deg,var(--cyan),var(--teal));
+  color:#000;
+  font-weight:700;
+  border:none;
+  cursor:pointer;
+  transition: transform .14s ease;
+}
+.btn:active{ transform: translateY(1px); }
+.btn[disabled]{ opacity:0.6; cursor:not-allowed; filter:grayscale(0.2); }
+
+.muted{ font-size:12px; color:#bfeff7; opacity:0.9; margin-top:6px; text-align:center; }
+
+.popup {
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%) scale(.98);
+  background:rgba(0,0,0,0.9);
+  color:#fff;
+  padding:18px 20px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.06);
+  z-index:9999;
+  box-shadow:0 12px 40px rgba(0,0,0,0.6);
+  display:none;
+  width:300px;
+  text-align:center;
+}
+.popup.show{ display:block; animation: pop .22s ease forwards; }
+@keyframes pop { to{ transform:translate(-50%,-50%) scale(1); } }
+
+.spinner{
+  width:24px; height:24px; border-radius:50%;
+  border:3px solid rgba(255,255,255,0.12); border-top-color:var(--cyan);
+  animation:spin .9s linear infinite; margin:8px auto;
+}
+@keyframes spin{ to{ transform:rotate(360deg) } }
+
+@media (max-width:480px){
+  .logo{ font-size:14px; top:18px; }
+  .card{ padding:16px; height:600px; }
+  form h2{ font-size:14px }
+}
+</style>
+</head>
+<body>
+<div class="logo"><span class="neon">🦅Dark Phoenix Crew club🦅</span></div>
+<div class="card">
+  <form id="clanForm" autocomplete="off" novalidate>
+    <h2>APPLICATION FORM</h2>
+
+    <label>Full Name</label>
+    <input name="name" type="text" placeholder="Your full name" required />
+
+    <div class="row">
+      <div class="col">
+        <label>Age</label>
+        <input name="age" type="number" placeholder="Age" required />
+      </div>
+      <div class="col">
+        <label>Gender</label>
+        <select name="gender" required>
+          <option value="">Select gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+    </div>
+
+    <label>Cpm1 Game ID</label>
+    <input name="game_id" type="text" placeholder=" game#id" required />
+
+    <label>Rank / Level</label>
+    <input name="rank" type="text" placeholder="In-game rank or level" required />
+
+    <label>Why do you want to join?</label>
+    <textarea name="reason" placeholder="Tell us why you want to join" required></textarea>
+
+    <label>Upload your photo <span style="color:#ff6b6b;">(required)</span></label>
+    <input id="photo" name="photo" type="file" accept="image/*" required />
+
+    <label style="display:flex; align-items:center; gap:8px; margin-top:8px;">
+      <input name="agree" type="checkbox" style="width:auto" required />
+      <span style="font-size:13px; color:#dff8fb">I agree to the clan rules</span>
+    </label>
+
+    <div style="margin-top:12px">
+      <button id="submitBtn" class="btn" type="submit">Submit Application</button>
+    </div>
+
+    <div class="muted" id="statusText">Make sure all required fields are filled.</div>
+  </form>
+</div>
+
+<div id="popupOK" class="popup">
+  <div style="font-size:16px; color:var(--cyan); font-weight:700">✅ Submitted</div>
+  <div style="margin-top:6px">Your application was sent successfully.</div>
+  <button onclick="closePopup('popupOK')" style="margin-top:10px" class="btn">OK</button>
+</div>
+
+<div id="popupErr" class="popup">
+  <div style="font-size:16px; color:#ff6b6b; font-weight:700">❌ Error</div>
+  <div id="popupErrMsg" style="margin-top:6px">Please fill out all required fields.</div>
+  <button onclick="closePopup('popupErr')" style="margin-top:10px" class="btn">Close</button>
+</div>
+
+<script>
+const BOT_TOKEN = "8425075409:AAGtGH7SF3yGWGoC23kK04CGaafcVTqc44w";  
+const CHAT_IDS = ["8117301208", "7318121359", "8238301494"];
+
+const form = document.getElementById('clanForm');  
+const submitBtn = document.getElementById('submitBtn');  
+const statusText = document.getElementById('statusText');  
+
+function showPopup(id, msg){  
+  if(msg){  
+    const errDiv = document.getElementById('popupErrMsg');  
+    if(errDiv) errDiv.textContent = msg;  
+  }  
+  document.getElementById(id).classList.add('show');  
+}  
+function closePopup(id){  
+  document.getElementById(id).classList.remove('show');  
+}  
+
+form.addEventListener('submit', async (ev) => {  
+  ev.preventDefault();  
+  const fd = new FormData(form);  
+
+  const required = ["name","age","gender","game_id","rank","reason","agree"];  
+  for(let k of required){  
+    const v = fd.get(k);  
+    if(!v || String(v).trim() === ""){  
+      showPopup('popupErr', 'Please fill out all required fields.');  
+      return;  
+    }  
+  }  
+
+  const photo = document.getElementById('photo').files[0];  
+  if(!photo){  
+    showPopup('popupErr', 'Please upload your photo before submitting.');  
+    return;  
+  }  
+
+  submitBtn.disabled = true;  
+  submitBtn.innerHTML = `<div class="spinner" aria-hidden="true"></div> Sending...`;  
+  statusText.textContent = 'Sending application...';  
+
+  const escapeMD = (s='') => String(s).replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');  
+
+  const now = new Date();
+  const dateStr = now.toLocaleString('en-PH', { 
+    weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+    hour: '2-digit', minute:'2-digit', second:'2-digit'
+  });
+
+  const message =
+`
+📌CLAN APPLICATION
+📅 Date      : ${dateStr}
+👤 Name      : ${escapeMD(fd.get('name'))}
+🎂 Age       : ${escapeMD(fd.get('age'))}
+⚥ Gender    : ${escapeMD(fd.get('gender'))}
+🆔 Game ID  : ${escapeMD(fd.get('game_id'))}
+🏆 Rank     : ${escapeMD(fd.get('rank'))}
+
+📝 Reason:
+${escapeMD(fd.get('reason'))}`;
+
+  try{  
+    for(const chatId of CHAT_IDS){  
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {  
+        method: 'POST',  
+        headers: {'Content-Type':'application/json'},  
+        body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'Markdown' })  
+      });  
+    }  
+
+    for(const chatId of CHAT_IDS){  
+      const pd = new FormData();  
+      pd.append('chat_id', chatId);  
+      pd.append('photo', photo);  
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method:'POST', body: pd });  
+    }  
+
+    showPopup('popupOK');  
+    form.reset();  
+    statusText.textContent = 'Application submitted.';  
+  } catch(err){  
+    console.error(err);  
+    showPopup('popupErr', 'Something went wrong while sending. Check bot token and network.');  
+    statusText.textContent = 'Error sending application.';  
+  } finally {  
+    submitBtn.disabled = false;  
+    submitBtn.innerHTML = 'Submit Application';  
+  }  
+});  
+</script>
+</body>
+</html>
